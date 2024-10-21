@@ -6,6 +6,8 @@ services:
       POSTGRES_DB: socialnetwork
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    networks:
+      - backend
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
@@ -13,3 +15,7 @@ services:
 
 volumes:
   db-data:
+
+networks:
+  backend:
+    driver: bridge

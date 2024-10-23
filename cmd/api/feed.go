@@ -11,7 +11,7 @@ func (app *application) getUserFeedHandler(w http.ResponseWriter, r *http.Reques
 	fq := store.PaginatedFeedQuery{
 		Limit:  20,
 		Offset: 0,
-		Sort:   "",
+		Sort:   "desc",
 	}
 
 	fq, err := fq.Parse(r)

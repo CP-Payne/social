@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/CP-Payne/social/internal/db"
 	"github.com/CP-Payne/social/internal/env"
 	"github.com/CP-Payne/social/internal/store"
@@ -38,6 +40,9 @@ func main() {
 			maxIdleTime:  env.GetString("DB_MAX_IDLE_Time", "15m"),
 		},
 		env: env.GetString("ENV", "development"),
+		mail: mailConfig{
+			exp: time.Hour * 24 * 3, // 3 days
+		},
 	}
 
 	// Logger

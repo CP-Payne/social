@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/CP-Payne/social/docs" // Required for swagger docs
+	"github.com/CP-Payne/social/internal/mailer"
 	"github.com/CP-Payne/social/internal/store"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -17,18 +18,26 @@ type application struct {
 	config config
 	store  store.Storage
 	logger *zap.SugaredLogger
+	mailer mailer.Client
 }
 
 type config struct {
-	addr   string
-	db     dbConfig
-	env    string
-	apiURL string
-	mail   mailConfig
+	addr        string
+	db          dbConfig
+	env         string
+	apiURL      string
+	mail        mailConfig
+	frontendURL string
 }
 
 type mailConfig struct {
-	exp time.Duration
+	sendGrid  sendGridConfig
+	exp       time.Duration
+	fromEmail string
+}
+
+type sendGridConfig struct {
+	apiKey string
 }
 
 type dbConfig struct {

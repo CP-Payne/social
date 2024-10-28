@@ -30,17 +30,21 @@ func NewMailTrap(username, password, fromEmail string) *MailTrapMailer {
 }
 
 func (m *MailTrapMailer) Send(templateFile, username, email string, data any, isSandbox bool) error {
-	message := gomail.NewMessage()
 
-	message.SetHeader("From", m.fromEmail)
-	message.SetHeader("To", email)
+	fromEmail := m.fromEmail
+	toEmail := email
 
 	// If dev environment, send email to fromEmail instead of toEmail
 	// Email will be sent from mailtrap
 	if isSandbox {
-		message.SetHeader("From", mailTrapDemoMail)
-		message.SetHeader("To", m.fromEmail)
+		fromEmail = mailTrapDemoMail
+		toEmail = m.fromEmail
 	}
+
+	message := gomail.NewMessage()
+	message.SetHeader("From", fromEmail)
+	message.SetHeader("To", toEmail)
+
 	// template parsing and building
 	tmpl, err := template.ParseFS(FS, "templates/"+templateFile)
 	if err != nil {

@@ -3,7 +3,6 @@ package mailer
 import (
 	"bytes"
 	"fmt"
-	"log"
 	"text/template"
 	"time"
 
@@ -66,19 +65,21 @@ func (m *MailTrapMailer) Send(templateFile, username, email string, data any, is
 	message.SetHeader("Subject", subject.String())
 	message.SetBody("text/html", body.String())
 
+	// Maybe remove the retry into a separate function in the handler. Using custom logger would then be easier
+	var retryErr error
 	for i := 0; i < maxRetries; i++ {
-		err = m.client.DialAndSend(message)
-		if err != nil {
-			log.Printf("Failed to send email to %v, attempt %d of %d", email, i+1, maxRetries)
-			log.Printf("Error: %v", err.Error())
+		retryErr = m.client.DialAndSend(message)
+		if retryErr != nil {
+			// log.Printf("Failed to send email to %v, attempt %d of %d", email, i+1, maxRetries)
+			// log.Printf("Error: %v", err.Error())
 
+			// Exponential Backoff
 			time.Sleep(time.Second * time.Duration(i+1))
 			continue
 		}
 
-		log.Printf("Email sent")
 		return nil
 	}
 
-	return fmt.Errorf("failed to send emaila fter %d attempts", maxRetries)
+	return fmt.Errorf("failed to send email after %d attempt, error: %v", maxRetries, retryErr)
 }

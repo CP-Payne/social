@@ -42,6 +42,13 @@ func main() {
 			maxIdleTime:  env.GetString("DB_MAX_IDLE_Time", "15m"),
 		},
 		env: env.GetString("ENV", "development"),
+		auth: authConfig{
+			basic: basicConfig{
+				// IMPORTANT: Don't keep the default value in production
+				user: env.GetString("AUTH_BASIC_USER", "admin"),
+				pass: env.GetString("AUTH_BASIC_PASS", "admin"),
+			},
+		},
 		mail: mailConfig{
 			exp:       time.Hour * 24 * 3, // 3 days
 			fromEmail: env.GetString("FROM_EMAIL", ""),

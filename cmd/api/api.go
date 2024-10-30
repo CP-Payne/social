@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/CP-Payne/social/docs" // Required for swagger docs
+	"github.com/CP-Payne/social/internal/auth"
 	"github.com/CP-Payne/social/internal/mailer"
 	"github.com/CP-Payne/social/internal/store"
 	"github.com/go-chi/chi/v5"
@@ -16,10 +17,11 @@ import (
 )
 
 type application struct {
-	config config
-	store  store.Storage
-	logger *zap.SugaredLogger
-	mailer mailer.Client
+	config        config
+	store         store.Storage
+	logger        *zap.SugaredLogger
+	mailer        mailer.Client
+	authenticator auth.Authenticator
 }
 
 type config struct {
@@ -34,6 +36,13 @@ type config struct {
 
 type authConfig struct {
 	basic basicConfig
+	token tokenConfig
+}
+
+type tokenConfig struct {
+	secret string
+	exp    time.Duration
+	iss    string
 }
 
 type basicConfig struct {
@@ -126,6 +135,7 @@ func (app *application) mount() http.Handler {
 		// Public Routes
 		r.Route("/authentication", func(r chi.Router) {
 			r.Post("/user", app.registerUserHandler)
+			r.Post("/token", app.createTokenHandler)
 		})
 
 	})

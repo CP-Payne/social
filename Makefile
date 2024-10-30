@@ -19,7 +19,7 @@ migrate-down:
 
 .PHONY: seed
 seed:
-	@go run cmd/migrate/seed/main.go
+	@source .envrc && go run cmd/migrate/seed/main.go
 
 .PHONY: gen-docs
 gen-docs:

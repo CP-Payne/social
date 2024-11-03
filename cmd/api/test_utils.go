@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/CP-Payne/social/internal/auth"
+	"github.com/CP-Payne/social/internal/ratelimiter"
 	"github.com/CP-Payne/social/internal/store"
 	"github.com/CP-Payne/social/internal/store/cache"
 	"go.uber.org/zap"
@@ -20,12 +21,19 @@ func newTestApplication(t *testing.T, cfg config) *application {
 	mockCacheStore := cache.NewMockStore()
 	testAuth := &auth.TestAuthenticator{}
 
+	// Rate limiter
+	rateLimiter := ratelimiter.NewFixedWindowLimiter(
+		cfg.rateLimiter.RequestsPerTimeFrame,
+		cfg.rateLimiter.TimeFrame,
+	)
+
 	return &application{
 		logger:        logger,
 		store:         mockStore,
 		cacheStorage:  mockCacheStore,
 		authenticator: testAuth,
 		config:        cfg,
+		rateLimiter:   rateLimiter,
 	}
 }
 

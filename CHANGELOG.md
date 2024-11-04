@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/CP-Payne/social/compare/v1.0.0...v1.1.0) (2024-11-04)
+
+
+### Features
+
+* update api version automatically ([20a7d09](https://github.com/CP-Payne/social/commit/20a7d09944e039b604338878969813e11958e098))
+
 ## 1.0.0 (2024-11-04)
 
 

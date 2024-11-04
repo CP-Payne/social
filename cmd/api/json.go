@@ -40,7 +40,11 @@ func writeJSONError(w http.ResponseWriter, status int, message string) error {
 
 func (app *application) jsonResponse(w http.ResponseWriter, status int, data any) error {
 
-	// TODO: Update jsonResponse to not include body for StatusNoContent
+	if status == http.StatusNoContent || data == nil || data == "" {
+		w.WriteHeader(status)
+		return nil
+	}
+
 	type envelope struct {
 		Data any `json:"data"`
 	}

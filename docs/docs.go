@@ -414,7 +414,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "204": {
+                    "200": {
                         "description": "User activated",
                         "schema": {
                             "type": "string"
@@ -591,7 +591,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "204": {
+                    "200": {
                         "description": "User followed",
                         "schema": {
                             "type": "string"
@@ -636,7 +636,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "204": {
+                    "200": {
                         "description": "User unfollowed",
                         "schema": {
                             "type": "string"

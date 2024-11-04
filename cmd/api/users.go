@@ -59,7 +59,7 @@ func (app *application) getUserHandler(w http.ResponseWriter, r *http.Request) {
 //	@Accept			json
 //	@Produce		json
 //	@Param			userID	path		int		true	"User ID"
-//	@Success		204		{string}	string	"User followed"
+//	@Success		200		{string}	string	"User followed"
 //	@Failure		400		{object}	error	"User payload missing"
 //	@Failure		404		{object}	error	"User not found"
 //	@Security		ApiKeyAuth
@@ -86,7 +86,7 @@ func (app *application) followUserHandler(w http.ResponseWriter, r *http.Request
 		}
 	}
 
-	if err := app.jsonResponse(w, http.StatusNoContent, nil); err != nil {
+	if err := app.jsonResponse(w, http.StatusOK, "user followed"); err != nil {
 		app.internalServerError(w, r, err)
 	}
 }
@@ -99,7 +99,7 @@ func (app *application) followUserHandler(w http.ResponseWriter, r *http.Request
 //	@Accept			json
 //	@Produce		json
 //	@Param			userID	path		int		true	"User ID"
-//	@Success		204		{string}	string	"User unfollowed"
+//	@Success		200		{string}	string	"User unfollowed"
 //	@Failure		400		{object}	error	"User payload missing"
 //	@Failure		404		{object}	error	"User not found"
 //	@Security		ApiKeyAuth
@@ -120,7 +120,7 @@ func (app *application) unfollowUserHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	if err := app.jsonResponse(w, http.StatusNoContent, nil); err != nil {
+	if err := app.jsonResponse(w, http.StatusOK, "user unfollowed"); err != nil {
 		app.internalServerError(w, r, err)
 	}
 }
@@ -132,7 +132,7 @@ func (app *application) unfollowUserHandler(w http.ResponseWriter, r *http.Reque
 //	@Tags			users
 //	@Produce		json
 //	@Param			token	path		string	true	"Invitation token"
-//	@Success		204		{string}	string	"User activated"
+//	@Success		200		{string}	string	"User activated"
 //	@Failure		404		{object}	error
 //	@Failure		500		{object}	error
 //	@Security		ApiKeyAuth
@@ -151,7 +151,7 @@ func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	if err := app.jsonResponse(w, http.StatusNoContent, ""); err != nil {
+	if err := app.jsonResponse(w, http.StatusOK, "user activated"); err != nil {
 		app.internalServerError(w, r, err)
 	}
 }

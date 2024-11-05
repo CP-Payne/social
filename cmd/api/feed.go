@@ -1,8 +1,8 @@
 package main
 
 import (
-	"log"
 	"net/http"
+	"time"
 
 	"github.com/CP-Payne/social/internal/store"
 )
@@ -28,15 +28,24 @@ import (
 //	@Router			/users/feed [get]
 func (app *application) getUserFeedHandler(w http.ResponseWriter, r *http.Request) {
 
+	dateFormat := "2006-01-02 15:04:05-07"
+
 	fq := store.PaginatedFeedQuery{
 		Limit:  20,
 		Offset: 0,
 		Sort:   "desc",
 		Tags:   []string{},
 		Search: "",
+		Since:  time.Unix(0, 0).Format(dateFormat),
+		Until:  time.Now().UTC().Format(dateFormat),
 	}
 
 	fq, err := fq.Parse(r)
+	if err != nil {
+		app.badRequestResponse(w, r, err)
+		return
+	}
+	err = fq.ValidateDates()
 	if err != nil {
 		app.badRequestResponse(w, r, err)
 		return
@@ -49,7 +58,6 @@ func (app *application) getUserFeedHandler(w http.ResponseWriter, r *http.Reques
 
 	ctx := r.Context()
 	user := getUserFromContext(r)
-	log.Println("USER ID: ", user.ID)
 
 	feed, err := app.store.Posts.GetUserFeed(ctx, user.ID, fq)
 	if err != nil {

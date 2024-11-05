@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/CP-Payne/social/compare/v1.2.0...v1.3.0) (2024-11-05)
+
+
+### Features
+
+* implement readme ([7f5ea66](https://github.com/CP-Payne/social/commit/7f5ea66636a83e75fb965b0f94e1e1927c806aee))
+
 ## [1.2.0](https://github.com/CP-Payne/social/compare/v1.1.0...v1.2.0) (2024-11-05)
 
 

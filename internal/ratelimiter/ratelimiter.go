@@ -11,5 +11,3 @@ type Config struct {
 	TimeFrame            time.Duration
 	Enabled              bool
 }
-
-// TODO: Try to implement the rate limiter in redis instead of using in-memory map

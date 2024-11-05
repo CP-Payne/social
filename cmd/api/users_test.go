@@ -106,5 +106,3 @@ func TestGetUser(t *testing.T) {
 		mockCacheStore.Calls = nil // Reset mock expectations
 	})
 }
-
-// TODO: Add tests for other handlers
